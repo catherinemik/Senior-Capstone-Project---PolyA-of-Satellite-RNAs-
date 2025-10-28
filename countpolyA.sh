@@ -62,6 +62,6 @@ awk '{
 # --- Cleanup ---
 rm temp_reads.tsv
 
-echo "✅ Done! Results written to countpolyA.tsv"
-echo "✅ POD5 file list saved to found_pod5_files.txt"
+echo "Done! Results written to countpolyA.tsv"
+echo "POD5 file list saved to found_pod5_files.txt"
 
