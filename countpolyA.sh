@@ -11,6 +11,7 @@
 #Usage: sbatch countpolyA.sh /private/nanopore/seq_tech_center/Ortiz_RNA/christian_basecalled/A549REP1/02_11_25_R004_RNA_KHM13_A549REP1_1_dorado0.9.1_sup5.1.0_inosine_m6A.bam /private/nanopore/seq_tech_center/Ortiz_RNA/christian/02_11_25_R004_RNA_KHM13_A549REP1/02_11_25_R004_RNA_KHM13_A549REP1_1/
 #Output: countpolyA.tsv (read_id, strand, polyA_length)
 
+#determines polyA tail length (at 3' end of the sequence)
 # --- Input arguments ---
 BAM_FILE=$1
 POD5_DIR=$2
@@ -40,14 +41,17 @@ echo "$POD5_LIST" > found_pod5_files.txt
 
 # --- Extract read info from BAM ---
 # Fields: read_id, strand, sequence
+#checks if the read maps to the reverse strand 
 samtools view "$BAM_FILE" | awk '{
     read_id = $1
-    strand = ($2 & 16) ? "-" : "+"
+    strand = ($2 & 16) ? "-" : "+"        
     seq = $10
     print read_id "\t" strand "\t" seq
 }' > temp_reads.tsv
 
-# --- Count trailing A’s (polyA tail length) ---
+# --- Count trailing A’s (polyA tail length) at the 3' end of each sequence---
+#loops backwards through the sequence, from the last base to the first 
+#increments counter if the  base is A - if the base is not A it immediately breaks
 awk '{
     seq = $3
     n = length(seq)
