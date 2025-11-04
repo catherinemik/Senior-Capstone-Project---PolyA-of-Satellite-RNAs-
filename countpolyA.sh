@@ -42,12 +42,17 @@ echo "$POD5_LIST" > found_pod5_files.txt
 # --- Extract read info from BAM ---
 # Fields: read_id, strand, sequence
 #checks if the read maps to the reverse strand 
-samtools view "$BAM_FILE" | awk '{
+
+samtools view "$BAM_FILE" | awk -v OFS="\t" '{
     read_id = $1
-    strand = ($2 \& 16) ? "-" : "+"        
+    if (and($2, 16))
+        strand = "-"
+    else
+        strand = "+"
     seq = $10
-    print read_id "\t" strand "\t" seq
+    print read_id, strand, seq
 }' > temp_reads.tsv
+
 
 # --- Count trailing A’s (polyA tail length) at the 3' end of each sequence---
 #loops backwards through the sequence, from the last base to the first 
@@ -69,3 +74,4 @@ rm temp_reads.tsv
 echo "Done! Results written to countpolyA.tsv"
 echo "POD5 file list saved to found_pod5_files.txt"
 
+samtools view /private/nanopore/seq_tech_center/Ortiz_RNA/christian_basecalled/A549REP1/02_11_25_R004_RNA_KHM13_A549REP1_1_dorado0.9.1_sup5.1.0_inosine_m6A.bam | awk -v OFS="\t" '{ if (and($2,16)) s="-"; else s="+"; print $1, s, $10 }' | head
