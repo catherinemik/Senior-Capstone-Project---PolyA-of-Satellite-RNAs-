@@ -44,7 +44,7 @@ echo "$POD5_LIST" > found_pod5_files.txt
 #checks if the read maps to the reverse strand 
 samtools view "$BAM_FILE" | awk '{
     read_id = $1
-    strand = ($2 & 16) ? "-" : "+"        
+    strand = ($2 \& 16) ? "-" : "+"        
     seq = $10
     print read_id "\t" strand "\t" seq
 }' > temp_reads.tsv
