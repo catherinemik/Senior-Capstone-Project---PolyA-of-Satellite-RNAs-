@@ -25,19 +25,19 @@ fi
 command -v samtools >/dev/null 2>&1 || { echo "samtools not found. Load module or install it."; exit 1; }
 
 # --- Find all .pod5 files ---
-echo "Searching for .pod5 files in: $POD5_DIR ..."
-POD5_LIST=$(find "$POD5_DIR" -type f -name "*.pod5")
+#echo "Searching for .pod5 files in: $POD5_DIR ..."
+#POD5_LIST=$(find "$POD5_DIR" -type f -name "*.pod5")
 
-if [ -z "$POD5_LIST" ]; then
-  echo "No .pod5 files found in $POD5_DIR"
-  exit 1
-fi
+#if [ -z "$POD5_LIST" ]; then
+#  echo "No .pod5 files found in $POD5_DIR"
+#  exit 1
+#fi
 
-echo "Found the following POD5 files:"
-echo "$POD5_LIST" | head
+#echo "Found the following POD5 files:"
+#echo "$POD5_LIST" | head
 
 # (Optional) write to file for recordkeeping
-echo "$POD5_LIST" > found_pod5_files.txt
+#echo "$POD5_LIST" > found_pod5_files.txt
 
 # --- Extract read info from BAM ---
 # Fields: read_id, strand, sequence
