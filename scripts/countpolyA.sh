@@ -92,4 +92,3 @@ BEGIN{
 
 echo "Done! Results written to countpolyA.tsv"
 
-samtools view /private/nanopore/seq_tech_center/Ortiz_RNA/christian_basecalled/A549REP1/02_11_25_R004_RNA_KHM13_A549REP1_1_dorado0.9.1_sup5.1.0_inosine_m6A.bam | awk -v OFS="\t" '{ if (and($2,16)) s="-"; else s="+"; print $1, s, $10 }' | head
