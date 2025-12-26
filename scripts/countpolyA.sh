@@ -28,7 +28,7 @@ command -v samtools >/dev/null 2>&1 || { echo "samtools not found. Load module o
 #bitwise flag 16 is the reverse strand 
 samtools view "$BAM_FILE" | awk -v OFS="\t" '{
     read_id = $1
-    if (and($2, 16))
+    if (($2 & 16 != 0))
         strand = "-"
     else
         strand = "+"
