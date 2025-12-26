@@ -90,5 +90,5 @@ BEGIN{
 }' temp_reads.tsv > countpolyA.tsv 
 
 
-echo "Done! Results written to countpolyA.tsv"
+echo "Done! Results written to countpolyA.tsv" >&2 
 
