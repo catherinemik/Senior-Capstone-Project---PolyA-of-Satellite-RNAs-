@@ -26,7 +26,7 @@ command -v samtools >/dev/null 2>&1 || { echo "samtools not found. Load module o
 
 
 #bitwise flag 16 is the reverse strand 
-samtools view "$BAM_FILE" | awk -v OFS="\t" '{
+samtools view "$BAM_FILE" | gawk -v OFS="\t" '{
     read_id = $1
 
     # test reverse-strand flag (16) without bitwise ops
@@ -48,7 +48,7 @@ samtools view "$BAM_FILE" | awk -v OFS="\t" '{
 #“Sliding window” would iterate through each window of base pairs, if a window is under a threshold percentage of consistent A’s, or T’s ⇒ we can say that the polyA tail has ended 
 #This gives the script wiggle room in identifying polyA tails
 
-awk -v OFS="\t" '
+gawk -v OFS="\t" '
 BEGIN{
     WINDOW = 10                 #window size (base pairs)
     MIN_FRAC = 0.8              #minimum fraction of A/T in window    
