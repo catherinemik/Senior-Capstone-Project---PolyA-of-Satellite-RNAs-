@@ -72,14 +72,14 @@ BEGIN{
         if (start < 1) start = 1
 
         win_len = i - start + 1
-        match = 0
+        matched = 0
 
         for (j = start; j <= i; j++){
             if (substr(seq, j, 1) == tail_base)
-            match++
+            matched++
         }
 
-        frac = match / win_len
+        frac = matched / win_len
 
         if (frac >= MIN_FRAC) {
             tail_len += win_len
