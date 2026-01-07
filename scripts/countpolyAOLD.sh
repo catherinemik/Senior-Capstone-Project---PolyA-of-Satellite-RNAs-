@@ -50,44 +50,47 @@ samtools view "$BAM_FILE" | gawk -v OFS="\t" '{
 
 gawk -v OFS="\t" '
 BEGIN{
-    WINDOW = 10        # window size (bp)
-    STEP = 1           # slide by 1 bp
-    MIN_FRAC = 0.8     # minimum fraction of A/T in window
+    WINDOW = 10                 #window size (base pairs)
+    MIN_FRAC = 0.8              #minimum fraction of A/T in window    
+
 }
 {
-    read_id = $1
-    strand  = $2
-    seq     = $3
+    read_id = $1 
+    strand = $2 
+    seq = $3 
 
     n = length(seq)
     tail_len = 0
 
-    # expected tail base depends on strand
+    #expected tail base depends on strand
     if (strand == "+") tail_base = "A"
     else               tail_base = "T"
 
-    # slide window backwards from 3′ end
-    for (end = n; end >= WINDOW; end -= STEP) {
-        start = end - WINDOW + 1
+    #walk backwards from 3 prime end 
+    for ( i = n; i >= 1; i -= WINDOW){
+        start = i - WINDOW + 1
+        if (start < 1) start = 1
+
+        win_len = i - start + 1
         matched = 0
 
-        for (i = start; i <= end; i++) {
-            if (substr(seq, i, 1) == tail_base)
-                matched++
+        for (j = start; j <= i; j++){
+            if (substr(seq, j, 1) == tail_base)
+            matched++
         }
 
-        frac = matched / WINDOW
+        frac = matched / win_len
 
         if (frac >= MIN_FRAC) {
-            tail_len = n - start + 1
+            tail_len += win_len
         } else {
             break
         }
     }
 
     print read_id, strand, tail_len
-}
-' temp_reads.tsv > countpolyA.tsv
+
+}' temp_reads.tsv > countpolyA.tsv 
+
 
 echo "Done! Results written to countpolyA.tsv" >&2 
-
