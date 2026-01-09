@@ -24,7 +24,6 @@ inFile1 = args.tsvFile1
 inFile2 = args.tsvFile2
 outFile = args.outFile 
 
-
 #parse the tsv files 
 def parseTsv(filepath):
     polyA_list = []
@@ -36,8 +35,25 @@ def parseTsv(filepath):
             polyA_list.append(polyA_count)
     return polyA_list
 
+#function to count read numbers and percentages 
+def count_reads(filepath):
+    with open(filepath, 'r') as tsv:
+        linecount = 0
+        over_zero = 0
+        for line in tsv: 
+            line = line.strip().split('\t')
+            linecount += 1
+            polyA_count = int(line[2])
+            if polyA_count > 0:
+                over_zero += 1
+        percent_over_zero = over_zero/linecount * 100
+        
+    return percent_over_zero
 
-
+tsv1_readcounts = count_reads(inFile1)
+tsv2_readcounts = count_reads(inFile2)
+print(f"HSAT2 percentage of reads over zero: {tsv1_readcounts}")
+print(f"HSAT3 percentage of reads over zero: {tsv2_readcounts}")
 #plot individual points 
 #plan: y-axis is polyA tail length, HSAT2 and HSAT3 dots represented in different colors 
 def plotStuff(list1, list2, ax):
@@ -116,7 +132,7 @@ def main():
     plt.close()
 
 
-main()
+#main()
 #1. we need to figure out the format of the tsv file --> how is it organized? 
 #2. start with chr10 --> subset HSAT2's and HSAT3's seperately
 #3. make the histogram: plotting polyA tail length in relation to hsat2s and 3's?
