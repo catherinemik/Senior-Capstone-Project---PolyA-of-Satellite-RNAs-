@@ -3,7 +3,7 @@
 sort data by HSATs, histograms of the different polyA tail lengths
 
 conda activate BME163.conda (old conda environment, has matplotlib and other nice stuff)
-python3 polyAhistogram.py -tsv1 /Users/catherinemikhailova/Senior-Capstone-Project---PolyA-of-Satellite-RNAs-/data/countpolyA.chr10.hsat2.tsv -tsv2 /Users/catherinemikhailova/Senior-Capstone-Project---PolyA-of-Satellite-RNAs-/data/countpolyA.chr10.hsat3.tsv -o chr10.polyAcounts.png
+python3 polyAhistogram.py -tsv1 /Users/catherinemikhailova/Senior-Capstone-Project---PolyA-of-Satellite-RNAs-/data/countpolyA.chr1.hsat2.tsv -tsv2 /Users/catherinemikhailova/Senior-Capstone-Project---PolyA-of-Satellite-RNAs-/data/countpolyA.chr1.hsat3.tsv -o chr1.polyAcounts.png
 
  '''
 
@@ -48,12 +48,14 @@ def count_reads(filepath):
                 over_zero += 1
         percent_over_zero = over_zero/linecount * 100
         
-    return percent_over_zero
+    return linecount
 
 tsv1_readcounts = count_reads(inFile1)
 tsv2_readcounts = count_reads(inFile2)
-print(f"HSAT2 percentage of reads over zero: {tsv1_readcounts}")
-print(f"HSAT3 percentage of reads over zero: {tsv2_readcounts}")
+#print(f"HSAT2 percentage of reads over zero: {tsv1_readcounts}")
+print(f"HSAT2 line count: {tsv1_readcounts}")
+#print(f"HSAT3 percentage of reads over zero: {tsv2_readcounts}")
+print(f"HSAT3 line count: {tsv2_readcounts}")
 #plot individual points 
 #plan: y-axis is polyA tail length, HSAT2 and HSAT3 dots represented in different colors 
 def plotStuff(list1, list2, ax):
@@ -63,7 +65,7 @@ def plotStuff(list1, list2, ax):
             2 + random.uniform(-0.1, 0.1),
             polyA_count,
             'o',
-            color=(0.384, 0.318, 0.941),
+            color=(0.024, 0.659, 0.91),
             alpha=0.5,
             markersize=4
         )
@@ -74,14 +76,14 @@ def plotStuff(list1, list2, ax):
             4 + random.uniform(-0.1, 0.1),
             polyA_count,
             'o',
-            color=(0.227, 0.659, 0.486),
+            color=(0.478, 0.788, 0.106),
             alpha=0.5,
             markersize=4
         )
 
     
     
-    ax.set_title("Poly A Count Plot: Chr10 ")
+    ax.set_title("Poly A Count Plot: Chr1 ")
     ax.set_xlabel("Satellite")
     ax.set_ylabel("polyA tail length (bp)")
 
